@@ -35,16 +35,17 @@ body, html {
 }
 
 .btn-arrow {
-  width: 70px;
-  height: 70px;
-  border-radius: 25%;
+  align-items: center;
   background-color: rgb(255, 255, 255);
+  border-radius: 25%;
+  cursor: pointer;
   display: flex;
   font-size: 25px;
+  height: 70px;
   justify-content: center;
-  align-items: center;
   margin: 5px;
-  cursor: pointer;
+  user-select: none;
+  width: 70px;
 }
 
 .btn-arrow:hover {
