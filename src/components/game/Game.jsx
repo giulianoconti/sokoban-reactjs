@@ -250,7 +250,7 @@ export const Game = () => {
               else if (cell === 1) return <div className="cell cell-wall cell-img" key={cellIndex} />;
               else if (cell === 3) return <div className="cell cell-box cell-img" key={cellIndex} />;
               else if (cell === 4) return <div className="cell cell-goal" key={cellIndex} />;
-              else if (cell === 7) return <div className={`cell cell-img ${imgDirection}`} key={cellIndex} />;
+              else if (cell === 7) return <div className={`cell cell-img cell-player ${imgDirection}`} key={cellIndex} />;
             })}
           </div>
         ))}
