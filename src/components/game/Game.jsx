@@ -4,14 +4,11 @@ import { Levels } from "../levels/Levels";
 export const Game = () => {
   const [level, setLevel] = useState(0);
   const [test, setTest] = useState(77);
-  const [levelContainer, setLevelContainer] = useState(
-    JSON.parse(JSON.stringify(Levels[level]))
-  );
+  const [levelContainer, setLevelContainer] = useState(JSON.parse(JSON.stringify(Levels[level])));
   const [arrayPositionsGoals, setArrayPositionsGoals] = useState([]);
   const [arrayPositionsBoxes, setArrayPositionsBoxes] = useState([]);
 
   const [imgDirection, setImgDirection] = useState("cell-player-ArrowUp");
-
   const [messageWinner, setMessageWinner] = useState("");
 
   const [showArrowButtons, setShowArrowButtons] = useState(false);
@@ -146,28 +143,21 @@ export const Game = () => {
   const handleKeyDown = ({ key }) => {
     // ----------------------------
     const keyPressed = {
-      ArrowUp: ["cell-player-ArrowUp", "pressing", "", "", ""],
-      ArrowDown: ["cell-player-ArrowDown", "", "pressing", "", ""],
-      ArrowLeft: ["cell-player-ArrowLeft", "", "", "pressing", ""],
-      ArrowRight: ["cell-player-ArrowRight", "", "", "", "pressing"],
+      ArrowUp: ["cell-player-ArrowUp", ["pressing", "", "", ""]],
+      ArrowDown: ["cell-player-ArrowDown", ["", "pressing", "", ""]],
+      ArrowLeft: ["cell-player-ArrowLeft", ["", "", "pressing", ""]],
+      ArrowRight: ["cell-player-ArrowRight", ["", "", "", "pressing"]],
     };
+    if (!Object.keys(keyPressed).includes(key)) return;
 
-    const [direc, pressed, pressed2, pressed3, pressed4, despres] =
-      keyPressed[key];
-    setPressedArrow([pressed, pressed2, pressed3, pressed4]);
+    const [direc, pressed] = keyPressed[key];
+    setPressedArrow(pressed);
     setImgDirection(direc);
-
     // ----------------------------
-    if (
-      nextPositionContentOfPlayer(key) === 0 ||
-      nextPositionContentOfPlayer(key) === 4
-    ) {
+    if (nextPositionContentOfPlayer(key) === 0 || nextPositionContentOfPlayer(key) === 4) {
       movePlayer(key);
     } else if (nextPositionContentOfPlayer(key) === 3) {
-      if (
-        nextPositionContentOfBox(key) === 0 ||
-        nextPositionContentOfBox(key) === 4
-      ) {
+      if (nextPositionContentOfBox(key) === 0 || nextPositionContentOfBox(key) === 4) {
         movePlayer(key);
         moveBox(key);
       }
@@ -177,21 +167,14 @@ export const Game = () => {
     const newArray = [...levelContainer];
     for (let i = 0; i < arrayPositionsGoals.length; i++) {
       setLevelContainer(newArray);
-      if (
-        levelContainer[arrayPositionsGoals[i][0]][
-          arrayPositionsGoals[i][1]
-        ].valueOf() === 0
-      ) {
+      if (levelContainer[arrayPositionsGoals[i][0]][arrayPositionsGoals[i][1]].valueOf() === 0) {
         newArray[arrayPositionsGoals[i][0]][arrayPositionsGoals[i][1]] = 4;
       }
     }
 
     // ----------------------------
     positionBoxes();
-    if (
-      JSON.stringify(arrayPositionsGoals) ===
-      JSON.stringify(arrayPositionsBoxes)
-    ) {
+    if (JSON.stringify(arrayPositionsGoals) === JSON.stringify(arrayPositionsBoxes)) {
       setMessageWinner(`You win the level ${level + 1}!`);
     }
   };
@@ -259,36 +242,15 @@ export const Game = () => {
         </button>
       </div>
 
-      <div
-        className="game"
-        ref={gameScreenRef}
-        onKeyDown={handleKeyDown}
-        tabIndex="-1"
-      >
+      <div className="game" ref={gameScreenRef} onKeyDown={handleKeyDown} tabIndex="-1">
         {levelContainer.map((row, rowIndex) => (
           <div className="flex" key={rowIndex}>
             {row.map((cell, cellIndex) => {
-              if (cell === 0)
-                return (
-                  <div className="cell cell-empty cell-img" key={cellIndex} />
-                );
-              else if (cell === 1)
-                return (
-                  <div className="cell cell-wall cell-img" key={cellIndex} />
-                );
-              else if (cell === 3)
-                return (
-                  <div className="cell cell-box cell-img" key={cellIndex} />
-                );
-              else if (cell === 4)
-                return <div className="cell cell-goal" key={cellIndex} />;
-              else if (cell === 7)
-                return (
-                  <div
-                    className={`cell cell-img ${imgDirection}`}
-                    key={cellIndex}
-                  />
-                );
+              if (cell === 0) return <div className="cell cell-empty cell-img" key={cellIndex} />;
+              else if (cell === 1) return <div className="cell cell-wall cell-img" key={cellIndex} />;
+              else if (cell === 3) return <div className="cell cell-box cell-img" key={cellIndex} />;
+              else if (cell === 4) return <div className="cell cell-goal" key={cellIndex} />;
+              else if (cell === 7) return <div className={`cell cell-img ${imgDirection}`} key={cellIndex} />;
             })}
           </div>
         ))}
@@ -296,30 +258,18 @@ export const Game = () => {
         {showArrowButtons ? (
           <div className="arrows-container">
             <div className="arrows">
-              <button
-                className={`btn-arrow ${pressedArrow[0]}`}
-                onClick={() => handleKeyDown({ key: "ArrowUp" })}
-              >
+              <button className={`btn-arrow ${pressedArrow[0]}`} onClick={() => handleKeyDown({ key: "ArrowUp" })}>
                 ⬆
               </button>
             </div>
             <div className="arrows">
-              <button
-                className={`btn-arrow ${pressedArrow[2]}`}
-                onClick={() => handleKeyDown({ key: "ArrowLeft" })}
-              >
+              <button className={`btn-arrow ${pressedArrow[2]}`} onClick={() => handleKeyDown({ key: "ArrowLeft" })}>
                 ⬅
               </button>
-              <button
-                className={`btn-arrow ${pressedArrow[1]}`}
-                onClick={() => handleKeyDown({ key: "ArrowDown" })}
-              >
+              <button className={`btn-arrow ${pressedArrow[1]}`} onClick={() => handleKeyDown({ key: "ArrowDown" })}>
                 ⬇
               </button>
-              <button
-                className={`btn-arrow ${pressedArrow[3]}`}
-                onClick={() => handleKeyDown({ key: "ArrowRight" })}
-              >
+              <button className={`btn-arrow ${pressedArrow[3]}`} onClick={() => handleKeyDown({ key: "ArrowRight" })}>
                 ➡
               </button>
             </div>
