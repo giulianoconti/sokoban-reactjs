@@ -282,7 +282,7 @@ export const Game = () => {
           </div>
         ) : (
           <div className="flex">
-            <button className="btn" onClick={handleShowHideArrowButtons}>
+            <button className="btn mt-2" onClick={handleShowHideArrowButtons}>
               Show Arrows To Move
             </button>
           </div>
