@@ -27,7 +27,7 @@ html {
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100%;
+  height: 200px;
 }
 
 .arrows {
@@ -76,6 +76,7 @@ html {
 
 .game {
   outline: 10px solid black;
+  background-color: rgb(128, 128, 128);
 }
 
 .cell {

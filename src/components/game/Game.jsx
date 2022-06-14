@@ -255,6 +255,7 @@ export const Game = () => {
           </div>
         ))}
 
+      </div>
         {showArrowButtons ? (
           <div className="arrows-container">
             <div className="arrows">
@@ -286,7 +287,6 @@ export const Game = () => {
             </button>
           </div>
         )}
-      </div>
     </>
   );
 };
