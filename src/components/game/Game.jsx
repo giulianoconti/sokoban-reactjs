@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Levels } from "../levels/Levels";
+import { Rules } from "../rules/Rules";
 
 export const Game = () => {
   const [level, setLevel] = useState(0);
   const [test, setTest] = useState(77);
+  const [showRules, setShowRules] = useState(false);
   const [levelContainer, setLevelContainer] = useState(JSON.parse(JSON.stringify(Levels[level])));
   const [arrayPositionsGoals, setArrayPositionsGoals] = useState([]);
   const [arrayPositionsBoxes, setArrayPositionsBoxes] = useState([]);
@@ -228,6 +230,8 @@ export const Game = () => {
         </div>
       )}
 
+      {showRules && <Rules setShowRules={setShowRules} />}
+
       <h1 className="title">Sokoban</h1>
       <div className="pb-2 between flex">
         <select className="btn" value={level} onChange={selectLevel}>
@@ -237,6 +241,9 @@ export const Game = () => {
             </option>
           ))}
         </select>
+        <button className="btn" onClick={() => setShowRules(!showRules)}>
+          How to play
+        </button>
         <button className="btn" onClick={restartLevel}>
           Restart Level
         </button>
@@ -260,18 +267,42 @@ export const Game = () => {
         <div className="arrows-container">
           <div className="arrows">
             <button className={`btn-arrow ${pressedArrow[0]}`} onClick={() => handleKeyDown({ key: "ArrowUp" })}>
-              ⬆
+              <svg
+                className="svg-arrow"
+                id="_1-Arrow_Up"
+                data-name="1-Arrow Up"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 32 32"
+              >
+                <title>1-Arrow Up</title>
+                <path d="M26.71,10.29l-10-10a1,1,0,0,0-1.41,0l-10,10,1.41,1.41L15,3.41V32h2V3.41l8.29,8.29Z" />
+              </svg>
             </button>
           </div>
           <div className="arrows">
             <button className={`btn-arrow ${pressedArrow[2]}`} onClick={() => handleKeyDown({ key: "ArrowLeft" })}>
-              ⬅
+              <svg className="svg-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                <title>4-Arrow Left</title>
+                <g id="_4-Arrow_Left" data-name="4-Arrow Left">
+                  <path d="M32,15H3.41l8.29-8.29L10.29,5.29l-10,10a1,1,0,0,0,0,1.41l10,10,1.41-1.41L3.41,17H32Z" />
+                </g>
+              </svg>
             </button>
             <button className={`btn-arrow ${pressedArrow[1]}`} onClick={() => handleKeyDown({ key: "ArrowDown" })}>
-              ⬇
+              <svg className="svg-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                <title>2-Arrow Down</title>
+                <g id="_2-Arrow_Down" data-name="2-Arrow Down">
+                  <path d="M26.29,20.29,18,28.59V0H16V28.59L7.71,20.29,6.29,21.71l10,10a1,1,0,0,0,1.41,0l10-10Z" />
+                </g>
+              </svg>
             </button>
             <button className={`btn-arrow ${pressedArrow[3]}`} onClick={() => handleKeyDown({ key: "ArrowRight" })}>
-              ➡
+              <svg className="svg-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                <title>3-Arrow Right</title>
+                <g id="_3-Arrow_Right" data-name="3-Arrow Right">
+                  <path d="M31.71,15.29l-10-10L20.29,6.71,28.59,15H0v2H28.59l-8.29,8.29,1.41,1.41,10-10A1,1,0,0,0,31.71,15.29Z" />
+                </g>
+              </svg>
             </button>
           </div>
           <div className="flex">
