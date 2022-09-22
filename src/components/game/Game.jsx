@@ -250,43 +250,43 @@ export const Game = () => {
               else if (cell === 1) return <div className="cell cell-wall cell-img" key={cellIndex} />;
               else if (cell === 3) return <div className="cell cell-box cell-img" key={cellIndex} />;
               else if (cell === 4) return <div className="cell cell-goal" key={cellIndex} />;
-              else if (cell === 7) return <div className={`cell cell-img cell-player ${imgDirection}`} key={cellIndex} />;
+              else if (cell === 7)
+                return <div className={`cell cell-img cell-player ${imgDirection}`} key={cellIndex} />;
             })}
           </div>
         ))}
-
       </div>
-        {showArrowButtons ? (
-          <div className="arrows-container">
-            <div className="arrows">
-              <button className={`btn-arrow ${pressedArrow[0]}`} onClick={() => handleKeyDown({ key: "ArrowUp" })}>
-                ⬆
-              </button>
-            </div>
-            <div className="arrows">
-              <button className={`btn-arrow ${pressedArrow[2]}`} onClick={() => handleKeyDown({ key: "ArrowLeft" })}>
-                ⬅
-              </button>
-              <button className={`btn-arrow ${pressedArrow[1]}`} onClick={() => handleKeyDown({ key: "ArrowDown" })}>
-                ⬇
-              </button>
-              <button className={`btn-arrow ${pressedArrow[3]}`} onClick={() => handleKeyDown({ key: "ArrowRight" })}>
-                ➡
-              </button>
-            </div>
-            <div className="flex">
-              <button className="btn" onClick={handleShowHideArrowButtons}>
-                Hide Arrows To Move
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div className="flex">
-            <button className="btn mt-2" onClick={handleShowHideArrowButtons}>
-              Show Arrows To Move
+      {showArrowButtons ? (
+        <div className="arrows-container">
+          <div className="arrows">
+            <button className={`btn-arrow ${pressedArrow[0]}`} onClick={() => handleKeyDown({ key: "ArrowUp" })}>
+              ⬆
             </button>
           </div>
-        )}
+          <div className="arrows">
+            <button className={`btn-arrow ${pressedArrow[2]}`} onClick={() => handleKeyDown({ key: "ArrowLeft" })}>
+              ⬅
+            </button>
+            <button className={`btn-arrow ${pressedArrow[1]}`} onClick={() => handleKeyDown({ key: "ArrowDown" })}>
+              ⬇
+            </button>
+            <button className={`btn-arrow ${pressedArrow[3]}`} onClick={() => handleKeyDown({ key: "ArrowRight" })}>
+              ➡
+            </button>
+          </div>
+          <div className="flex">
+            <button className="btn" onClick={handleShowHideArrowButtons}>
+              Hide Arrows To Move
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="flex">
+          <button className="btn mt-2" onClick={handleShowHideArrowButtons}>
+            Show Arrows To Move
+          </button>
+        </div>
+      )}
     </>
   );
 };

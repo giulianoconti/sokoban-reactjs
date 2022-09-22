@@ -1,9 +1,10 @@
-import { Home } from "./pages/Home";
+import React from "react";
+import { Game } from "./components/game/Game";
 
 export const App = () => {
   return (
     <div className="app">
-      <Home />
+      <Game />
     </div>
   );
 };
