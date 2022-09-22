@@ -92,7 +92,7 @@ html {
 }
 
 .rules {
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   width: 100vw;
@@ -106,7 +106,7 @@ html {
 }
 
 .rules-button-close {
-  position: absolute;
+  position: fixed;
   top: 20px;
   right: 20px;
   width: 30px;
@@ -199,7 +199,7 @@ html {
   left: 0;
   margin-left: auto;
   margin-right: auto;
-  position: absolute;
+  position: fixed;
   right: 0;
   text-align: center;
   width: 100vw;
