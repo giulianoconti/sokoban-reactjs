@@ -19,4 +19,4 @@ Sokoban is a puzzle game in which the player controls a character who pushes box
 
 ### Link
 
-* https://sokoban-giulianoconti.vercel.app/
+https://sokoban-giulianoconti.vercel.app/
