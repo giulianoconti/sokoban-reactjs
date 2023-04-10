@@ -1,8 +1,10 @@
 import React from "react";
-import { Game } from "./components/game/Game";
+import ReactDOM from "react-dom/client";
+import { Game } from "./components/Game";
+import "./index.css";
 
-export const App = () => {
-  return (
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+  <React.StrictMode>
     <div className="app">
       <Game />
       <footer className="footer">
@@ -14,5 +16,5 @@ export const App = () => {
         </span>
       </footer>
     </div>
-  );
-};
+  </React.StrictMode>
+);

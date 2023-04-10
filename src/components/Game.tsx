@@ -1,14 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, KeyboardEvent } from "react";
 import { Levels } from "../levels/Levels";
-import { Rules } from "../rules/Rules";
+import { Rules } from "./Rules";
+
+type ArrowKey = "ArrowUp" | "ArrowDown" | "ArrowLeft" | "ArrowRight";
 
 export const Game = () => {
-  const [level, setLevel] = useState(0);
-  const [test, setTest] = useState(77);
-  const [showRules, setShowRules] = useState(false);
-  const [levelContainer, setLevelContainer] = useState(JSON.parse(JSON.stringify(Levels[level])));
-  const [arrayPositionsGoals, setArrayPositionsGoals] = useState([]);
-  const [arrayPositionsBoxes, setArrayPositionsBoxes] = useState([]);
+  const [level, setLevel] = useState<number>(0);
+  const [test, setTest] = useState<number>(77);
+  const [showRules, setShowRules] = useState<boolean>(false);
+  const [levelContainer, setLevelContainer] = useState(JSON.parse(JSON.stringify(Levels[level])) as number[][]);
+  const [arrayPositionsGoals, setArrayPositionsGoals] = useState<[number, number][]>([]);
+  const [arrayPositionsBoxes, setArrayPositionsBoxes] = useState<[number, number][]>([]);
 
   const [imgDirection, setImgDirection] = useState("cell-player-ArrowUp");
   const [messageWinner, setMessageWinner] = useState("");
@@ -16,7 +18,7 @@ export const Game = () => {
   const [showArrowButtons, setShowArrowButtons] = useState(false);
   const [pressedArrow, setPressedArrow] = useState(["", "", "", ""]);
 
-  const gameScreenRef = useRef(null);
+  const gameScreenRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setTimeout(() => {
@@ -32,11 +34,11 @@ export const Game = () => {
   useEffect(() => {
     positionGoals();
     positionBoxes();
-    gameScreenRef.current.focus();
+    gameScreenRef.current?.focus();
   }, [test]);
 
   const positionGoals = () => {
-    let goals = [];
+    let goals: [number, number][] = [];
     for (let i = 0; i < levelContainer.length; i++) {
       const row = levelContainer[i];
       let column = -1;
@@ -51,7 +53,7 @@ export const Game = () => {
   };
 
   const positionBoxes = () => {
-    let boxes = [];
+    let boxes: [number, number][] = [];
     for (let i = 0; i < levelContainer.length; i++) {
       const row = levelContainer[i];
       let column = -1;
@@ -65,14 +67,14 @@ export const Game = () => {
     setArrayPositionsBoxes(boxes);
   };
 
-  const positionPlayer = () => {
-    const player = levelContainer.find((row) => row.find((cell) => cell === 7));
-    const playerRow = levelContainer.indexOf(player);
-    const playerColumn = player.indexOf(7);
+  const positionPlayer = (): [number, number] => {
+    const playerRow = levelContainer.findIndex((row: number[]) => row.includes(7));
+    const player = levelContainer[playerRow];
+    const playerColumn = player ? player.indexOf(7) : -1;
     return [playerRow, playerColumn];
   };
 
-  const nextPositionContentOfPlayer = (direction) => {
+  const nextPositionContentOfPlayer = (direction: ArrowKey = "ArrowUp") => {
     const [playerRow, playerColumn] = positionPlayer();
     if (direction === "ArrowUp") {
       return levelContainer[playerRow - 1][playerColumn];
@@ -88,7 +90,7 @@ export const Game = () => {
     }
   };
 
-  const movePlayer = (direction) => {
+  const movePlayer = (direction: ArrowKey = "ArrowUp") => {
     const newLevelContainer = [...levelContainer];
     const [playerRow, playerColumn] = positionPlayer();
     if (direction === "ArrowUp") {
@@ -110,7 +112,7 @@ export const Game = () => {
     setLevelContainer(newLevelContainer);
   };
 
-  const nextPositionContentOfBox = (direction) => {
+  const nextPositionContentOfBox = (direction: ArrowKey = "ArrowUp") => {
     const [playerRow, playerColumn] = positionPlayer();
     if (direction === "ArrowUp") {
       return levelContainer[playerRow - 2][playerColumn];
@@ -126,7 +128,7 @@ export const Game = () => {
     }
   };
 
-  const moveBox = (direction) => {
+  const moveBox = (direction: ArrowKey = "ArrowUp") => {
     const newLevelContainer = [...levelContainer];
     const [playerRow, playerColumn] = positionPlayer();
     if (direction === "ArrowUp") {
@@ -142,15 +144,14 @@ export const Game = () => {
   };
 
   // | 0 = empty | 1 = wall | 3 = box | 4 = goal | 7 = player |
-  const handleKeyDown = ({ key }) => {
+  const handleKeyDown = ({ key }: { key: ArrowKey }): void => {
     // ----------------------------
-    const keyPressed = {
+    const keyPressed: { [key: string]: [string, string[]] } = {
       ArrowUp: ["cell-player-ArrowUp", ["pressing", "", "", ""]],
       ArrowDown: ["cell-player-ArrowDown", ["", "pressing", "", ""]],
       ArrowLeft: ["cell-player-ArrowLeft", ["", "", "pressing", ""]],
       ArrowRight: ["cell-player-ArrowRight", ["", "", "", "pressing"]],
     };
-    if (!Object.keys(keyPressed).includes(key)) return;
 
     const [direc, pressed] = keyPressed[key];
     setPressedArrow(pressed);
@@ -177,11 +178,19 @@ export const Game = () => {
     // ----------------------------
     positionBoxes();
     if (JSON.stringify(arrayPositionsGoals) === JSON.stringify(arrayPositionsBoxes)) {
-      setMessageWinner(`You win the level ${level + 1}!`);
+      setMessageWinner(`You won level ${level + 1}!`);
     }
   };
 
-  const selectLevel = ({ target: { value } }) => {
+  const onKeyDown = (event: KeyboardEvent<HTMLDivElement>): void => {
+    const allowedKeys: ArrowKey[] = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
+
+    if (allowedKeys.includes(event.key as ArrowKey)) {
+      handleKeyDown({ key: event.key as ArrowKey });
+    }
+  };
+
+  const selectLevel = ({ target: { value = "0" } }) => {
     setLevel(parseInt(value));
     setMessageWinner("");
   };
@@ -249,7 +258,7 @@ export const Game = () => {
         </button>
       </div>
 
-      <div className="game" ref={gameScreenRef} onKeyDown={handleKeyDown} tabIndex="-1">
+      <div className="game" ref={gameScreenRef} tabIndex={-1} onKeyDown={onKeyDown}>
         {levelContainer.map((row, rowIndex) => (
           <div className="flex" key={rowIndex}>
             {row.map((cell, cellIndex) => {
@@ -257,8 +266,7 @@ export const Game = () => {
               else if (cell === 1) return <div className="cell cell-wall cell-img" key={cellIndex} />;
               else if (cell === 3) return <div className="cell cell-box cell-img" key={cellIndex} />;
               else if (cell === 4) return <div className="cell cell-goal" key={cellIndex} />;
-              else if (cell === 7)
-                return <div className={`cell cell-img cell-player ${imgDirection}`} key={cellIndex} />;
+              else if (cell === 7) return <div className={`cell cell-img cell-player ${imgDirection}`} key={cellIndex} />;
             })}
           </div>
         ))}
@@ -267,13 +275,7 @@ export const Game = () => {
         <div className="arrows-container">
           <div className="arrows">
             <button className={`btn-arrow ${pressedArrow[0]}`} onClick={() => handleKeyDown({ key: "ArrowUp" })}>
-              <svg
-                className="svg-arrow"
-                id="_1-Arrow_Up"
-                data-name="1-Arrow Up"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 32 32"
-              >
+              <svg className="svg-arrow" id="_1-Arrow_Up" data-name="1-Arrow Up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
                 <title>1-Arrow Up</title>
                 <path d="M26.71,10.29l-10-10a1,1,0,0,0-1.41,0l-10,10,1.41,1.41L15,3.41V32h2V3.41l8.29,8.29Z" />
               </svg>
