@@ -69,10 +69,6 @@ html {
   width: 30px;
 }
 
-.pressing {
-  background-color: rgba(255, 255, 255, 0.6);
-}
-
 .flex {
   display: flex;
   justify-content: center;
@@ -230,6 +226,7 @@ html {
   font-size: 25px;
   font-weight: bold;
   height: 100vh;
+  height: 100svh;
   justify-content: center;
   left: 0;
   margin-left: auto;

@@ -1,9 +1,10 @@
 import boxImg from "/assets/box.png";
 import playerImg from "/assets/player.png";
 
-export const Rules = ({ setShowRules }: { setShowRules: (value: boolean) => void }) => {
+export const Rules = ({ setShowRules, gameScreenRef }: { setShowRules: (value: boolean) => void; gameScreenRef: React.RefObject<HTMLDivElement> }) => {
   const closeRules = () => {
     setShowRules(false);
+    gameScreenRef.current?.focus();
   };
 
   return (
