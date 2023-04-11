@@ -236,7 +236,7 @@ export const Game = () => {
               </button>
             ) : (
               <>
-                <h4>You win the Game!</h4>
+                <h4>& The full game!</h4>
                 <button className="btn" onClick={restartGame}>
                   Restart Game
                 </button>
@@ -249,6 +249,12 @@ export const Game = () => {
       {showRules && <Rules setShowRules={setShowRules} gameScreenRef={gameScreenRef} />}
 
       <h1 className="title">Sokoban</h1>
+      <h2 className="subtitle">
+        Created by{" "}
+        <a className="subtitle-a" href="https://www.linkedin.com/in/giulianoconti/">
+          Giuliano Conti
+        </a>
+      </h2>
       <div className="pb-2 between flex">
         <select className="btn" value={level} onChange={selectLevel}>
           {levelsCopy.map((l = "", index = 0) => (
@@ -315,14 +321,14 @@ export const Game = () => {
             </button>
           </div>
           <div className="flex">
-            <button className="btn" onClick={handleShowHideArrowButtons}>
+            <button className="btn mt-20" onClick={handleShowHideArrowButtons}>
               Hide Arrows To Move
             </button>
           </div>
         </div>
       ) : (
         <div className="flex">
-          <button className="btn mt-2" onClick={handleShowHideArrowButtons}>
+          <button className="btn" onClick={handleShowHideArrowButtons}>
             Show Arrows To Move
           </button>
         </div>
